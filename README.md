@@ -1,10 +1,17 @@
 # machina.js - v0.3.4
-**Be sure to read the release notes for v0.3.0-v0.3.2 at the bottom of this page. These releases involve a couple of breaking API changes.**
 
 ## What is it?
+
 Machina.js is a JavaScript framework for highly customizable finite state machines (FSMs).  Many of the ideas for machina have been loosely inspired by the Erlang/OTP FSM behaviors.
 
+
+## Warning
+
+**Be sure to read the release notes for v0.3.0-v0.3.2 at the bottom of this page. These releases involve a couple of breaking API changes.**
+
+
 ## Why would I use it?
+
 * Finite state machines offer a way to structure web client code in a very organized manner, and can make it much simpler to extend behavior for all or only key edge cases.
 	* For example - instead of nested callbacks/deferreds, use an FSM to act as an "event aggregator" that is aware of when state needs to transition in the app once a set of conditions has been satisfied.
 	* FSMs *can* work well for concerns like:
@@ -17,7 +24,9 @@ Machina.js is a JavaScript framework for highly customizable finite state machin
 	* Writing your own message bus/eventing wire-up plugin is fairly simple.  Look at [machina.postal](https://github.com/ifandelse/machina.postal) for an example.
 	* Hook into the top level "newFsm" event to give other components in your app a handle to your FSMs as they are created.
 
+
 ## How do I use it?
+
 (The [wiki](https://github.com/ifandelse/machina.js/wiki) has more extensive API documentation. Also, be sure to check out the example folder in this repository for more in-depth demos - especially if you're interested in a working 'connectivity' FSM. The example below is just scratching the surface of one...)
 
 Creating an FSM:
@@ -89,10 +98,14 @@ You can see in the above example that anytime the FSM handles an event, it first
 
 Now that we've seen a quick example, let's do a whirlwind API tour.
 
+
 ## Have More Questions?
+
 Read the wiki and the source – you might find your answer and more! Check out the [issue](https://github.com/ifandelse/machina.js/issues/4) opened by @burin - a *great* example of how to use github issues to ask questions, provide sample code, etc. I only ask that if you open an issue, that it be *focused on a specific problem or bug* (not wide, open ambiguity, please). We also have an IRC chat room on freenode: #machinajs. It's a quiet place, but I'll do my best to answer questions if they arise.
 
+
 ## Whirlwind API Tour
+
 When you are creating a new FSM instance, `machina.Fsm` takes 1 argument - an options object.  Here's a breakdown of the members of this `options` object:
 
 `eventListeners` - An object of event names, associated with the array of event handlers subscribed to them.  (You are not required to declare the events your FSM can publish ahead of time - this is only for convenience if you want to add handlers as you create the instance.)
@@ -138,7 +151,9 @@ states: {
 
 `initialize` - a function that will be executed as soon as the FSM instance has been created. This is the last step of the FSM's constructor function, prior to emitting that a new instance has been created, and transitioning (if applicable) into the initial state.
 
+
 ### Inheritance
+
 FSMs can be created via the `machina.Fsm` constructor function as described above, or you can create an 'extended' FSM constructor function by calling `machina.Fsm.extend()`.  If you are familiar with backbone.js, machina's inheritance is identical to how backbone objects work, except that machina performs a deep extend, which means you can inherit from an FSM, adding new handlers to a state defined by the base (and you can override already-declared handlers, etc.).  With this being the case, it's better to think of machina's inhertiance as "blending" and not just extending. Let's look at an example:
 
 ```javascript
@@ -193,6 +208,7 @@ var childFsm = new ChildFsm();
 ```
 
 ## The machina.Fsm Prototype
+
 Each instance of an machina FSM has the following methods available via it's prototype:
 
 * `emit(eventName, [other args...])` - looks in the `events` object for a matching event name, and then iterates through the subscriber callbacks for that event and invokes each one, passing in any additional args that were passed to `emit`. (NOTE: - this call is currently aliased as `emit` as well.)
@@ -217,7 +233,9 @@ In addition to the prototype members, every instance of an FSM has these instanc
 * `states` - the object literal of states & handlers you passed in when you created the FSM.
 * `targetReplayState` - used internally during transitions to manage the proper replay of queued events if multiple transitions result from one initial transition.
 
+
 ## The Top Level machina object
+
 The top level `machina` object has the following members:
 
 * `Fsm` - the constructor function used to create FSMs.
@@ -227,6 +245,7 @@ The top level `machina` object has the following members:
 * `on` - function used to subscribe a callback to top-level machina events (currently the only event published at this level is "newFsm")
 * `off` - function used to unsubscribe a callback to top-level machina events.
 * `eventListeners` - an object literal containing the top-level `emit` call as well as susbcribers to any top-level events.
+
 
 ## Pulling machina into your environment
 
@@ -247,6 +266,7 @@ var MyFsm = machina.Fsm.extend({ /* your stuff */});
 
 
 ## Build, Tests & Examples
+
 machina.js uses [anvil.js](http://github.com/anviljs/anvil.js/) to build.
 
 * Install node.js (and consider using [nvm](https://github.com/creationix/nvm) to manage your node versions)
